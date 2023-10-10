@@ -7,9 +7,6 @@ set(CMAKE_SYSTEM_PROCESSOR riscv64)
 # You don't need to set this variable you set CMAKE_SYSTEM_NAME and CMAKE_SYSTEM_PROCESSOR
 # that are differs from a current host system (it sets automatically)
 ###############################################################################
-# Project preconditions
-# include(${CMAKE_CURRENT_LIST_DIR}/gcc_arm_none_eabi_conf.cmake)
-
 # Compiler version preconditions
 set(COMPILER_VERSION_REQ    "10.2.0" CACHE INTERNAL "ARM GCC Compiler required version")
 set(TARGET_TRIPLET          "riscv64-unknown-elf" CACHE INTERNAL "ARM GCC Toolchain target triplet")
