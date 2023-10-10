@@ -9,6 +9,7 @@ add_compile_options(-fmessage-length=0)
 add_compile_options(-fstrict-volatile-bitfields)
 add_compile_options(-fshort-enums)
 add_compile_options(-fstack-usage)
+add_compile_options(-save-temps=obj)
 ###############################################################################
 # C standard
 set(CMAKE_C_STANDARD 17)

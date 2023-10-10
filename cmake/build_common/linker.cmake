@@ -10,6 +10,6 @@ add_link_options(-fms-extensions)
 add_link_options(-ffunction-sections)
 add_link_options(-fdata-sections)
 # Newlib specific --specs.*
-add_link_options(--specs=nano.specs)
+# add_link_options(--specs=nano.specs)
 # add_link_options(--specs=nosys.specs)
 ###############################################################################
