@@ -11,7 +11,7 @@ set(CMAKE_SYSTEM_PROCESSOR riscv64)
 set(COMPILER_VERSION_REQ    "10.2.0" CACHE INTERNAL "ARM GCC Compiler required version")
 set(TARGET_TRIPLET          "riscv64-unknown-elf" CACHE INTERNAL "ARM GCC Toolchain target triplet")
 # TODO: Use configurable path
-set(GCC_COMPILER_PATH       "/home/ermacv/dev/proj/bl/toolchain_gcc_t-head_linux" CACHE INTERNAL "GCC Compiler Path")
+set(GCC_COMPILER_PATH       "${BOUFFALO_TOOLCHAIN}" CACHE INTERNAL "GCC Compiler Path")
 set(COMPILER_EXE_EXTENSION  "")
 ###############################################################################
 # Compiler pathes information
