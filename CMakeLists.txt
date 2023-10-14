@@ -18,12 +18,15 @@ include(${PROJECT_SOURCE_DIR}/cmake/project.cmake)
 set(CMAKE_COLOR_DIAGNOSTICS TRUE)
 ###############################################################################
 set(WITH_STATIC_LIB) # open_amp-static, libmetal-static
+# include($ENV{LIBMETAL_PATH}/cmake/collect.cmake)
+# add_subdirectory(generic)
+# set(_sources generic/sys.c)
+# target_sources(libmetal-static PRIVATE generic/sys.c)
 add_subdirectory($ENV{LIBMETAL_PATH} ${CMAKE_BINARY_DIR}/libmetal)
-add_subdirectory(generic)
 # The following variables are needed for OpenAMP library
 set(LIBMETAL_INCLUDE_DIR $ENV{LIBMETAL_PATH})
 set(LIBMETAL_LIB libmetal-static)
-add_subdirectory($ENV{OPENAMP_PATH} ${CMAKE_BINARY_DIR}/open-amp)
+# add_subdirectory($ENV{OPENAMP_PATH} ${CMAKE_BINARY_DIR}/open-amp)
 ###############################################################################
 add_executable(${PROJECT_NAME})
 target_sources(${PROJECT_NAME} PRIVATE main.c)
