@@ -1,7 +1,7 @@
 ###############################################################################
 #CPU setup
 set(CMAKE_SYSTEM_NAME Generic)
-set(CMAKE_SYSTEM_PROCESSOR riscv64)
+set(CMAKE_SYSTEM_PROCESSOR riscv)
 # There is a CMAKE_CROSSCOMPILING variable. Checking this variable CMake can
 # understand what compiler is used and what is a target platform
 # You don't need to set this variable you set CMAKE_SYSTEM_NAME and CMAKE_SYSTEM_PROCESSOR
@@ -11,7 +11,7 @@ set(CMAKE_SYSTEM_PROCESSOR riscv64)
 set(COMPILER_VERSION_REQ    "10.2.0" CACHE INTERNAL "ARM GCC Compiler required version")
 set(TARGET_TRIPLET          "riscv64-unknown-elf" CACHE INTERNAL "ARM GCC Toolchain target triplet")
 # TODO: Use configurable path
-set(GCC_COMPILER_PATH       "${BOUFFALO_TOOLCHAIN}" CACHE INTERNAL "GCC Compiler Path")
+set(GCC_COMPILER_PATH       "$ENV{BOUFFALO_TOOLCHAIN}" CACHE INTERNAL "GCC Compiler Path")
 set(COMPILER_EXE_EXTENSION  "")
 ###############################################################################
 # Compiler pathes information
