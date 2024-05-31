@@ -1,40 +1,37 @@
-#include <stdint.h>
-#include <stdbool.h>
-// #include "sdkconfig.h"
-#include <FreeRTOS.h>
-#include <task.h>
+#include "FreeRTOS.h"
+#include "task.h"
 
-#include "board.h"
-#include "bflb_mtimer.h"
+#include <stdio.h>
+#include <assert.h>
 
-#define DBG_TAG "SYS"
-#include "log.h"
+void vApplicationStackOverflowHook(TaskHandle_t xTask, char *pcTaskName)
+{
+    puts("Stack Overflow checked\r\n");
+    printf("Task Name %s\r\n", pcTaskName);
+    while (1) {
+        /*empty here*/
+    }
+}
+
+void vApplicationMallocFailedHook(void)
+{
+    printf("Memory Allocate Failed. Current left size is %lu bytes\r\n", xPortGetFreeHeapSize());
+    while (1) {
+        /*empty here*/
+    }
+}
+
+void vApplicationIdleHook(void) {}
+
 
 void app_main(void *param) {
-  while(true) {
-    LOG_I("Ping from task\r\n");
+  while(1) {
     vTaskDelay(pdMS_TO_TICKS(1000));
   }
 }
 
 int main(void) {
-    board_init();
-
-    LOG_I("Starting\r\n");
-
-
-    if (xTaskCreate(app_main, "app_main", 4096, NULL, 5, NULL) != pdPASS) {
-        LOG_E("Failed to create app_main task");
-        while (true) {
-            ;
-        }
-    }
-    LOG_I("Running...\r\n");
-
+    BaseType_t rc = xTaskCreate(app_main, "app_main", 256, NULL, 5, NULL);
+    assert(rc == pdPASS);
     vTaskStartScheduler();
-
-    // while (1) {
-    //     LOG_I("ping\r\n");
-    //     bflb_mtimer_delay_ms(5000);
-    // }
 }
