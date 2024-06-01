@@ -107,16 +107,10 @@ header file. */
 void vApplicationMallocFailedHook(void);
 void vAssertCalled(void);
 
-#include <stdio.h>
+#include <assert.h>
 
-#define configASSERT(x)                        \
-    if ((x) == 0) {                            \
-        printf("file [%s]\r\n", __FILE__);     \
-        printf("func [%s]\r\n", __FUNCTION__); \
-        printf("line [%d]\r\n", __LINE__);     \
-        printf("%s\r\n", (const char *)(#x));  \
-        vAssertCalled();                       \
-    }
+#define configASSERT(x) assert(x)
+
 #if (configUSE_TICKLESS_IDLE != 0)
 void vApplicationSleep(uint32_t xExpectedIdleTime);
 #define portSUPPRESS_TICKS_AND_SLEEP(xExpectedIdleTime) vApplicationSleep(xExpectedIdleTime)
