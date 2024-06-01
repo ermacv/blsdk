@@ -189,10 +189,6 @@ int main(void) {
 
     log_start();
 
-#if (defined(CONFIG_LUA) || defined(CONFIG_BFLOG) || defined(CONFIG_FATFS))
-    rtc = bflb_device_get_by_name("rtc");
-#endif
-
     /* set CPU D0 boot XIP address and flash address */
     Tzc_Sec_Set_CPU_Group(GLB_CORE_ID_D0, 1);
     /* D0 boot from 0x58000000 */
