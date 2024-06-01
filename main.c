@@ -3,7 +3,6 @@
 #include <FreeRTOS.h>
 #include <task.h>
 
-// #include "board.h"
 #include "bflb_mtimer.h"
 #include "bflb_flash.h"
 #include "bflb_clock.h"
@@ -74,50 +73,6 @@ static void console_init()
     bflb_uart_set_console(uart0);
 }
 
-void bl_show_flashinfo(void)
-{
-    spi_flash_cfg_type flashCfg;
-    uint8_t *pFlashCfg = NULL;
-    uint32_t flashSize = 0;
-    uint32_t flashCfgLen = 0;
-    uint32_t flashJedecId = 0;
-
-    flashJedecId = bflb_flash_get_jedec_id();
-    flashSize = bflb_flash_get_size();
-    bflb_flash_get_cfg(&pFlashCfg, &flashCfgLen);
-    arch_memcpy((void *)&flashCfg, pFlashCfg, flashCfgLen);
-    printf("======== flash cfg ========\r\n");
-    printf("flash size 0x%08X\r\n", flashSize);
-    printf("jedec id     0x%06X\r\n", flashJedecId);
-    printf("mid              0x%02X\r\n", flashCfg.mid);
-    printf("iomode           0x%02X\r\n", flashCfg.io_mode);
-    printf("clk delay        0x%02X\r\n", flashCfg.clk_delay);
-    printf("clk invert       0x%02X\r\n", flashCfg.clk_invert);
-    printf("read reg cmd0    0x%02X\r\n", flashCfg.read_reg_cmd[0]);
-    printf("read reg cmd1    0x%02X\r\n", flashCfg.read_reg_cmd[1]);
-    printf("write reg cmd0   0x%02X\r\n", flashCfg.write_reg_cmd[0]);
-    printf("write reg cmd1   0x%02X\r\n", flashCfg.write_reg_cmd[1]);
-    printf("qe write len     0x%02X\r\n", flashCfg.qe_write_reg_len);
-    printf("cread support    0x%02X\r\n", flashCfg.c_read_support);
-    printf("cread code       0x%02X\r\n", flashCfg.c_read_mode);
-    printf("burst wrap cmd   0x%02X\r\n", flashCfg.burst_wrap_cmd);
-    printf("===========================\r\n");
-}
-
-void bl_show_log(void)
-{
-    printf("\r\n");
-    printf("  ____               __  __      _       _       _     \r\n");
-    printf(" |  _ \\             / _|/ _|    | |     | |     | |    \r\n");
-    printf(" | |_) | ___  _   _| |_| |_ __ _| | ___ | | __ _| |__  \r\n");
-    printf(" |  _ < / _ \\| | | |  _|  _/ _` | |/ _ \\| |/ _` | '_ \\ \r\n");
-    printf(" | |_) | (_) | |_| | | | || (_| | | (_) | | (_| | |_) |\r\n");
-    printf(" |____/ \\___/ \\__,_|_| |_| \\__,_|_|\\___/|_|\\__,_|_.__/ \r\n");
-    printf("\r\n");
-    printf("Build:%s,%s\r\n", __TIME__, __DATE__);
-    printf("Copyright (c) 2022 Bouffalolab team\r\n");
-}
-
 static void system_clock_init(void)
 {
     /* wifipll/audiopll */
@@ -181,15 +136,12 @@ static void peripheral_clock_init(void)
 }
 
 int main(void) {
-    int ret = -1;
-    uintptr_t flag;
-
-    flag = bflb_irq_save();
+    uintptr_t flag = bflb_irq_save();
 
     GLB_Halt_CPU(GLB_CORE_ID_D0);
     GLB_Halt_CPU(GLB_CORE_ID_LP);
 
-    ret = bflb_flash_init();
+    int ret = bflb_flash_init();
 
     system_clock_init();
     peripheral_clock_init();
@@ -226,11 +178,9 @@ int main(void) {
     size_t heap_len = ((size_t)&__HeapLimit - (size_t)&__HeapBase);
     kmem_init((void *)&__HeapBase, heap_len);
 
-    bl_show_log();
     if (ret != 0) {
         printf("flash init fail!!!\r\n");
     }
-    bl_show_flashinfo();
 
     printf("dynamic memory init success,heap size = %d Kbyte \r\n", ((size_t)&__HeapLimit - (size_t)&__HeapBase) / 1024);
 
@@ -274,11 +224,5 @@ int main(void) {
         }
     }
     LOG_I("Running...\r\n");
-
     vTaskStartScheduler();
-
-    // while (1) {
-    //     LOG_I("ping\r\n");
-    //     bflb_mtimer_delay_ms(5000);
-    // }
 }
